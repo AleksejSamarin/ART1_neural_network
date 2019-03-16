@@ -4,21 +4,25 @@ import sys
 
 class Window():
 
-    def __init__(self, network, worker):
+    def __init__(self, network, worker, conf):
         self.root = tkinter.Tk(className=' ART-1 Neural network')
         self.root.configure(background='white')
         self.root.resizable(False, False)
         self.canvases = []
         self.f_top = tkinter.Frame()
         self.f_top.pack()
+        self.c = conf['examples_count']
+        self.w = conf['examples_width']
+        self.h = conf['examples_height']
+        self.size = 25
 
         # self.root.bind("<Return>", lambda l: self.run(network, data))
         self.root.bind("<l>", lambda l: self.load_canvases(worker))
         self.root.bind("<Control-s>", lambda l: worker.save_arrays(self.get_codes()))
         self.root.bind("<Escape>", self.exit)
 
-        for i in range(5):
-            canvas = Canvas(self.f_top, width=100, height=75, background='white')
+        for i in range(self.c):
+            canvas = Canvas(self.w, self.h, self.size, self.f_top, width=self.size * self.w, height=self.size * self.h, background='white')
             canvas.pack(side="left")
             self.canvases.append(canvas)
 

@@ -1,13 +1,13 @@
 import tkinter
 
 class Canvas(tkinter.Canvas):
-    WIDTH = 25
-    HEIGHT = 25
-    GRID_W = 4
-    GRID_H = 3
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, GRID_W, GRID_H, SIZE, *args, **kwargs):
         tkinter.Canvas.__init__(self, *args, **kwargs)
+        self.GRID_W = GRID_W
+        self.GRID_H = GRID_H
+        self.WIDTH = SIZE
+        self.HEIGHT = SIZE
         self.squares = []
         self.create_squares()
         self.bind("<Button-1>", self.change)
