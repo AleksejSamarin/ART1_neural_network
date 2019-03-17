@@ -16,7 +16,7 @@ class Window():
         self.h = conf['examples_height']
         self.size = 25
 
-        # self.root.bind("<Return>", lambda l: self.run(network, data))
+        self.root.bind("<Return>", lambda l: network.run(self.get_codes()))
         self.root.bind("<l>", lambda l: self.load_canvases(worker))
         self.root.bind("<Control-s>", lambda l: worker.save_arrays(self.get_codes()))
         self.root.bind("<Escape>", self.exit)
