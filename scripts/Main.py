@@ -11,5 +11,5 @@ if __name__ == '__main__':
             'examples_height':  3}
 
     network = NetworkART1(conf)
-    # worker = FileWorker('../resources/arrays.npz', conf)
-    # ui = Window(network, worker, conf)
+    worker = FileWorker('../resources/arrays.npz', conf)
+    ui = Window(network, worker, conf)
