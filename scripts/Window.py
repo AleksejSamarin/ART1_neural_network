@@ -16,9 +16,9 @@ class Window():
         self.h = conf['examples_height']
         self.size = 25
 
-        self.root.bind("<Return>", lambda l: network.run(self.get_codes()))
+        self.root.bind("<Return>", lambda l: self.draw_results(network.run(self.get_codes())))
         self.root.bind("<l>", lambda l: self.load_canvases(worker))
-        self.root.bind("<Control-s>", lambda l: worker.save_arrays(self.get_codes()))
+        self.root.bind("<s>", lambda l: worker.save_arrays(self.get_codes()))
         self.root.bind("<Escape>", self.exit)
 
         for i in range(self.c):
@@ -35,6 +35,13 @@ class Window():
         data = worker.load_arrays()
         for idx, canvas in enumerate(self.canvases):
             canvas.color_from_code(data['inputs'][idx])
+
+
+    def draw_results(self, results):
+        for canvas in self.canvases:
+            canvas.color_from_code(np.zeros(self.size))
+        for idx, canvas in enumerate(results):
+            self.canvases[idx].color_from_code(results[idx])
 
 
     def get_codes(self, event=None):

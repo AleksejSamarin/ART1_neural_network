@@ -65,6 +65,7 @@ class NetworkART1:
         B = T * B_value
         unallocated_neuron = Neuron(T, B_value, B)
         self.neurons = [unallocated_neuron]
+        self.results = []
         self.print_arrays(T, B)
 
 
@@ -78,6 +79,8 @@ class NetworkART1:
         for example in inputs:
             winner_index = self.recognize(example)
             self.compare(example, winner_index)
-        print()
+        print("Results:")
         for idx, neuron in enumerate(self.neurons):
             self.print_arrays(neuron.T)
+            self.results.append(neuron.T)
+        return self.results
