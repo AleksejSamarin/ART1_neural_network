@@ -1,6 +1,7 @@
 from scripts.NetworkART1 import *
 from scripts.FileWorker import *
 from scripts.Window import *
+import os
 
 if __name__ == '__main__':
 
@@ -10,6 +11,7 @@ if __name__ == '__main__':
             'examples_width':   4,
             'examples_height':  3}
 
+    path = os.path.dirname(os.path.abspath(__file__))
     network = NetworkART1(conf)
-    worker = FileWorker('../resources/arrays.npz', conf)
+    worker = FileWorker(os.path.join(path, './resources/arrays.npz'), conf)
     ui = Window(network, worker, conf)
