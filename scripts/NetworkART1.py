@@ -8,18 +8,16 @@ class NetworkART1:
         self.factor_L = conf['factor_L']
         self.factor_p = conf['factor_p']
         self.factor_m = conf['examples_width'] * conf['examples_height']
-        self.prepare()
 
 
     def recognize(self, example):
         print("1. Recognize:")
         winner, max = 0, 0
         for idx, neuron in enumerate(self.neurons):
-            self.print_arrays(neuron.B)
-        print("----------------------")
+            self.print_arrays('B', neuron.B)
         for idx, neuron in enumerate(self.neurons):
-            S = example * neuron.B #_value
-            self.print_arrays(S)
+            S = example * neuron.B
+            self.print_arrays('S', S)
             if sum(S) > max:
                 max = sum(S)
                 winner = idx
@@ -30,7 +28,7 @@ class NetworkART1:
     def compare(self, example, winner_index):
         print("2. Compare:")
         C = self.neurons[winner_index].T * example
-        self.print_arrays(self.neurons[winner_index].T, example, C)
+        self.print_arrays(['T', 'x', 'C'], self.neurons[winner_index].T, example, C)
         diff = np.mean(C == example)
         print(diff, "<>", self.factor_p)
         if diff > self.factor_p:
@@ -46,7 +44,7 @@ class NetworkART1:
         B_value = Fraction(self.factor_L, self.factor_L - 1 + sum(example))
         B = T * B_value
         neuron = Neuron(T, B_value, B)
-        self.print_arrays(neuron.T, neuron.B)
+        self.print_arrays(['T', 'B'], neuron.T, neuron.B)
         return neuron
 
 
@@ -55,7 +53,7 @@ class NetworkART1:
         neuron.T = C
         neuron.B_value = Fraction(self.factor_L, self.factor_L - 1 + sum(C))
         neuron.B = C * neuron.B_value
-        self.print_arrays(neuron.T, neuron.B)
+        self.print_arrays(['T', 'B'], neuron.T, neuron.B)
 
 
     def prepare(self):
@@ -66,12 +64,12 @@ class NetworkART1:
         unallocated_neuron = Neuron(T, B_value, B)
         self.neurons = [unallocated_neuron]
         self.results = []
-        self.print_arrays(T, B)
+        self.print_arrays(['T', 'B'], T, B)
 
 
-    def print_arrays(self, *arrays):
-        for array in arrays:
-            print(*array, sep="\t")
+    def print_arrays(self, titles, *arrays):
+        for idx, array in enumerate(arrays):
+            print(titles[idx], ':', *array, sep="\t")
 
 
     def run(self, inputs):
@@ -81,6 +79,6 @@ class NetworkART1:
             self.compare(example, winner_index)
         print("Results:")
         for idx, neuron in enumerate(self.neurons):
-            self.print_arrays(neuron.T)
+            self.print_arrays(['T', 'B'], neuron.T, neuron.B)
             self.results.append(neuron.T)
         return self.results
